@@ -2,8 +2,8 @@ package postgres
 
 import (
 	"golang.org/x/crypto/bcrypt"
+	"gostart/internal/http-server/schemas"
 	user "gostart/internal/models"
-	"gostart/internal/schemas"
 )
 
 type Model interface {

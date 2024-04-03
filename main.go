@@ -5,7 +5,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"gostart/internal/config"
 	"gostart/internal/database/postgres"
-	"gostart/internal/http-server/handlers"
+	"gostart/internal/http-server/handlers/auth"
+	"gostart/internal/http-server/handlers/user"
 	router2 "gostart/internal/http-server/router"
 	logger2 "gostart/internal/logger"
 	"net/http"
@@ -25,13 +26,16 @@ func main() {
 	logger.Info("Application start-up")
 	client, _ := postgres.NewClient(ctx, cnfg.Database, logger)
 	// USER REPO INIT
-	repo := postgres.NewUserRepository(client, logger)
+	repo := postgres.NewUserRepository(client, logger, cnfg)
 	// USER HANDLERS INIT
-	handler := handlers.NewUserHandler(repo, logger)
+	handler := user.NewUserHandler(repo, logger, cnfg)
+	authHandler := auth.NewAuthHandler(repo, logger, cnfg)
 
 	router := chi.NewRouter()
 	router2.SetupMiddlewares(router, logger)
 	router2.SetupUserHandlers(handler, router)
+	router2.SetupAuthHandler(authHandler, router)
+
 	// server startup
 	server := &http.Server{
 		Addr:         cnfg.HttpServer.Address,
@@ -40,6 +44,7 @@ func main() {
 		WriteTimeout: time.Duration(cnfg.HttpServer.Timeout),
 		IdleTimeout:  time.Duration(cnfg.HttpServer.IdleTimeout),
 	}
+
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	go func() {

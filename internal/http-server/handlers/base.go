@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"gostart/internal/config"
 	"gostart/internal/database/postgres"
 	"log/slog"
 )
@@ -8,6 +9,7 @@ import (
 type Handler struct {
 	Repo   *postgres.UserRepository
 	Logger *slog.Logger
+	Config *config.Config
 }
 
 func NewHandler(repo *postgres.UserRepository, logger *slog.Logger) *Handler {
@@ -15,11 +17,4 @@ func NewHandler(repo *postgres.UserRepository, logger *slog.Logger) *Handler {
 		Repo:   repo,
 		Logger: logger,
 	}
-}
-
-func NewUserHandler(repo *postgres.UserRepository, logger *slog.Logger) *UserHandler {
-	return &UserHandler{Handler: Handler{
-		Repo:   repo,
-		Logger: logger,
-	}}
 }

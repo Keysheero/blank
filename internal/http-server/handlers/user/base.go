@@ -1,11 +1,19 @@
-package handlers
+package user
 
 import (
 	"context"
 	"encoding/json"
 	"github.com/google/uuid"
+	"gostart/internal/config"
+	"gostart/internal/database/postgres"
+	"gostart/internal/http-server/handlers"
+	"log/slog"
 	"net/http"
 )
+
+type UserHandler struct {
+	handlers.Handler
+}
 
 func (uh *UserHandler) UserGetHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
@@ -17,4 +25,12 @@ func (uh *UserHandler) UserGetHandler(w http.ResponseWriter, r *http.Request) {
 		uh.Logger.Warn("Problem with responding user by id", "ERROR", err)
 	}
 
+}
+
+func NewUserHandler(repo *postgres.UserRepository, logger *slog.Logger, config *config.Config) *UserHandler {
+	return &UserHandler{Handler: handlers.Handler{
+		Repo:   repo,
+		Logger: logger,
+		Config: config,
+	}}
 }

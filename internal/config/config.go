@@ -10,6 +10,7 @@ type Config struct {
 	StoragePath string           `yaml:"storage_path" env-required:"true"`
 	HttpServer  HttpServerConfig `yaml:"http_server"`
 	Database    DatabaseConfig   `yaml:"database"`
+	Auth        AuthConfig       `yaml:"auth"`
 }
 
 type HttpServerConfig struct {
@@ -25,6 +26,10 @@ type DatabaseConfig struct {
 	Password    string `yaml:"password"`
 	Name        string `yaml:"name"`
 	MaxAttempts int    `yaml:"max_attempts"`
+}
+
+type AuthConfig struct {
+	Secret string `yaml:"secret"`
 }
 
 func LoadConfig() *Config {

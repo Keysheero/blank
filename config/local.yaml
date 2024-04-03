@@ -1,7 +1,7 @@
 env: "local"
 storage_path: "/some/path"
 http_server:
-  address: "127.0.0.1:8001"
+  address: ":8001"
   timeout: 10
   idle_timeout: 5
 database:
@@ -11,3 +11,5 @@ database:
   password: "postgres"
   name: "postgres"
   max_attempts: 5
+auth:
+  secret: "EzP1GQI3tX7dcdRy4oxvGvNKD7-8C3X8FoJZXmQcG5o="

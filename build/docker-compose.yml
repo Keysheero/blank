@@ -1,0 +1,25 @@
+services:
+  postgres:
+    container_name: 'why404postgres'
+    image: 'postgres:15.3-alpine'
+    ports:
+      - '5435:5432'
+    restart: 'unless-stopped'
+    env_file:
+      - '../config/.env'
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  app:
+    container_name: "why404app"
+    build: 
+      context: ../
+      dockerfile: build/Dockerfile
+    stop_signal: SIGTERM
+    restart: 'unless-stopped'
+    depends_on:
+      - postgres
+    ports:
+      - "8001:8001"
+volumes:
+  pg_data:

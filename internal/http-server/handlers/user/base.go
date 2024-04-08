@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/google/uuid"
 	"gostart/internal/config"
 	"gostart/internal/database/postgres"
@@ -25,6 +26,10 @@ func (uh *UserHandler) UserGetHandler(w http.ResponseWriter, r *http.Request) {
 		uh.Logger.Warn("Problem with responding user by id", "ERROR", err)
 	}
 
+}
+
+func (uh *UserHandler) HelloWorldHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "hello world")
 }
 
 func NewUserHandler(repo *postgres.UserRepository, logger *slog.Logger, config *config.Config) *UserHandler {

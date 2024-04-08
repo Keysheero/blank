@@ -6,10 +6,10 @@ http_server:
   idle_timeout: 5
 database:
   host: "0.0.0.0"
-  port: 5455
-  username: "postgres"
-  password: "postgres"
-  name: "postgres"
+  port: 5432
+  username: "keysheero"
+  password: "keysheeropassword"
+  name: "why404pg"
   max_attempts: 5
 auth:
   secret: "EzP1GQI3tX7dcdRy4oxvGvNKD7-8C3X8FoJZXmQcG5o="

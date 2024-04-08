@@ -6,4 +6,4 @@
 /dist/
 /out/
 .env
-config/local.yaml
+config

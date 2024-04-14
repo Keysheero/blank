@@ -17,4 +17,7 @@ WORKDIR /app
 
 COPY --from=builder /app .
 
+
+
+
 CMD ["./main"]

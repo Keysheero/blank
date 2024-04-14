@@ -24,7 +24,10 @@ func main() {
 	logger := logger2.SetupLogger(cnfg.Env)
 
 	logger.Info("Application start-up")
-	client, _ := postgres.NewClient(ctx, cnfg.Database, logger)
+	client, err := postgres.NewClient(ctx, cnfg.Database, logger)
+	if err != nil {
+		logger.Warn("problem was occupied with database connection", "ERROR", err)
+	}
 	// USER REPO INIT
 	repo := postgres.NewUserRepository(client, logger, cnfg)
 	// USER HANDLERS INIT
@@ -51,7 +54,9 @@ func main() {
 		if err := server.ListenAndServe(); err != nil && nil != http.ErrServerClosed {
 			logger.Warn("Problems while running server", "ERROR", err)
 		}
+
 	}()
+	logger.Debug("SERVER_ADDR", server.Addr)
 	<-done
 	logger.Info("Shutting down the server")
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(cnfg.HttpServer.Timeout))

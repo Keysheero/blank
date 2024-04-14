@@ -18,11 +18,10 @@ func SetupMiddlewares(router chi.Router, logger *slog.Logger) {
 }
 
 func SetupUserHandlers(h *user.UserHandler, router chi.Router) {
-	router.Get("/user/get", h.UserGetHandler)
 	router.Get("/hello", h.HelloWorldHandler)
+	router.Post("/test", h.PostTestHandler)
 }
 
 func SetupAuthHandler(h *auth.AuthHandler, router chi.Router) {
 	router.Post("/auth/new", h.UserRegistrationHandler)
-	router.Post("/auth/login", h.LoginHandler)
 }
